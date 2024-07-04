@@ -1,0 +1,11 @@
+{
+    "hash": "OYpXJJ3IZR",
+    "writeHash": "wuwY1DGF9OC1ZpX",
+    "versionDate": "2022-10-26T17:56:18.000Z",
+    "files": {
+        "domain.pddl": "",
+        "blocksworld1.pddl": ";\n; A version of blocksworld\n;\n; Author: Ron Petrick\n;\n(define (domain blocksworld-1)\n    (:requirements\n        :strips\n    )\n\n    (:predicates\n        (gripperEmpty)\n        (holding ?x)\n        (onTable ?x)\n        (on ?x ?y)\n        (clear ?x)\n    )\n\n(:action pickup_from_table\n    :parameters\n        (?x)\n    :precondition\n        (and\n           (gripperEmpty)\n           (onTable ?x)\n           (clear ?x)\n        )\n    :effect\n        (and\n           (not (gripperEmpty))\n           (not (onTable ?x))\n           (holding ?x)\n        )\n)\n\n\n(:action putdown_on_table\n    :parameters\n        (?x)\n    :precondition\n        (and\n            (holding ?x)\n        )\n    :effect\n        (and\n            (not (holding ?x))\n            (onTable ?x)\n            (gripperEmpty)\n        )\n)\n\n\n(:action pickup_from_stack\n    :parameters\n        (?x ?y)\n    :precondition\n        (and\n            (on ?x ?y)\n            (clear ?x)\n            (gripperEmpty)\n        )\n    :effect\n        (and\n            (not (on ?x ?y))\n            (not (gripperEmpty))\n            (holding ?x)\n            (clear ?y)\n        )\n)\n\n\n(:action putdown_on_stack\n    :parameters\n        (?x ?y)\n    :precondition\n        (and\n            (holding ?x)\n            (clear ?y)\n        )\n    :effect\n        (and\n            (not (holding ?x))\n            (not (clear ?y))\n            (on ?x ?y)\n            (gripperEmpty)\n        )\n)\n\n\n)\n",
+        "problem1-1.pddl": ";\n; Problem 1 for blocksworld-1: build a simple tower\n;\n; Author: Ron Petrick\n;\n(define (problem problem-1-1)\n  (:domain blocksworld-1)\n\n  (:objects\n      a\n      b\n      c\n      d\n      e\n      f\n  )\n\n  (:init\n      (onTable a)\n      (onTable b)\n      (onTable c)\n      (onTable d)\n      (onTable e)\n      (onTable f)\n\n      (clear a)\n      (clear b)\n      (clear c)\n      (clear d)\n      (clear e)\n      (clear f)\n\n      (gripperEmpty)\n  )\n\n  (:goal\n      (and\n          (on a b)\n          (on b c)\n          (on c d)\n          (on d e)\n          (on e f)\n      )\n  )\n)\n"
+    },
+    "plugins": {}
+}
